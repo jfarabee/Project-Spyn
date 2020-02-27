@@ -1,0 +1,18 @@
+%KeyboardControl.m written by Jacob Farabee
+%2/27/2020  for FSE100 w/ Dr. Chavez
+
+brick = ConnectBrick("12BRICKS");
+
+global key
+InitKeyboard();
+
+while 1
+    pause(0.1);
+    switch key
+        case 'uparrow'
+            brick.MoveMotor('AB', 10);
+        case 'downarrow'
+            brick.MoveMotor('AB', -10);
+        case 'leftarrow'
+            brick.MoveMotor('A'
+            
