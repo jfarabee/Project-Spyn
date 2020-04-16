@@ -15,21 +15,21 @@ color_rgb = brick.ColorRGB(4);
 
 while(1)
     color_rgb = brick.ColorRGB(4);
-    if mean(color_rgb) < 130
-        %i.e. while color is black, grey.
+    if ((color_rgb(0) < 40) && (color_rgb(1) < 40) && (color_rgb(2) < 40))
+        %i.e. while color is black, all RGB should be < 40
         %move forward at 25 speed
         brick.MoveMotor('A', -25);
         brick.MoveMotor('B', -25);
     else
-        %if color is not black, brightness below certain value
+        %if color is not black, any RGB above 40
         path_not_found = true;
         while path_not_found
-            %to find the path again, swing right looking for it
+           %to find the path again, swing right looking for it
             brick.MoveMotor('A', -25);
             brick.MoveMotor('B', 0);
             %take another color value from sensor
             color_rgb = brick.ColorRGB(4);
-            if mean(color_rgb) < 130
+            if ((color_rgb(0) < 40) && (color_rgb(1) < 40) && (color_rgb(2) < 40))
                 path_not_found = false;
             end
             
@@ -37,7 +37,7 @@ while(1)
             brick.MoveMotor('A', 0);
             brick.MoveMotor('B', -25);
             color_rgb = brick.ColorRGB(4);
-            if mean(color_rgb) < 130
+            if ((color_rgb(0) < 40) && (color_rgb(1) < 40) && (color_rgb(2) < 40))
                 path_not_found = false;
             end
         end
