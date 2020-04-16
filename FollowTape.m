@@ -6,7 +6,7 @@
 midpoint = 0;   %???
 
 %set color sensor to RGB
-brick.setColorMode(4, 4);
+brick.SetColorMode(4, 4);
 
 %take initial color reading
 color_rgb = brick.ColorRGB(4);
