@@ -13,33 +13,29 @@ color_rgb = brick.ColorRGB(4);
 
 %color_rgb is a 3-value row vector
 
+pickupMotor = motor(brick, 'C');
+pickupMotor.speed = 10;
+
 while(1)
     color_rgb = brick.ColorRGB(4);
     if ((color_rgb(0) < 40) && (color_rgb(1) < 40) && (color_rgb(2) < 40))
         %i.e. while color is black, all RGB should be < 40
         %move forward at 25 speed
-        brick.MoveMotor('A', -25);
+        brick.MoveMotor('A', -28);
         brick.MoveMotor('B', -25);
-    else
-        %if color is not black, any RGB above 40
-        path_not_found = true;
-        while path_not_found
-           %to find the path again, swing right looking for it
-            brick.MoveMotor('A', -25);
-            brick.MoveMotor('B', 0);
-            %take another color value from sensor
-            color_rgb = brick.ColorRGB(4);
-            if ((color_rgb(0) < 40) && (color_rgb(1) < 40) && (color_rgb(2) < 40))
-                path_not_found = false;
-            end
-            
-            %now swing right looking for track
-            brick.MoveMotor('A', 0);
-            brick.MoveMotor('B', -25);
-            color_rgb = brick.ColorRGB(4);
-            if ((color_rgb(0) < 40) && (color_rgb(1) < 40) && (color_rgb(2) < 40))
-                path_not_found = false;
-            end
+    elseif ((color_rgb(2) > 200) && (color_rgb(1) < 40) && (color_rgb(0) < 40))
+        %when color blue is spotted, we rotate the pickup motor 45 degrees
+        % 'up', to pickup the passenger
+        rotation = readRotation(pickupMotor);
+        while(rotation < 45)
+           start(pickupMotor);
+           rotation = readRotation(pickupMotor);
         end
+    elseif ((color_rgb(0) > 200) && (color_rgb(1) < 40) && (color_rgb(2) < 40))
+        %on red, stop for 4 seconds
+        pause(4);
+    else
+       brick.MoveMotor('A', -30);
+       brick.MoveMotor('B', -10);
     end
 end
