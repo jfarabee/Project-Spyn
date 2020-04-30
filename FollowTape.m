@@ -14,19 +14,23 @@ color_rgb = brick.ColorRGB(4);
 halfway = 0; redSeen = 0;
 %tracks whether car has hit halfway point of track
 
+pickedUp = 0;
+
 while(1)
     
     color_rgb = brick.ColorRGB(4);
-    if ((color_rgb(1) > 200) && (color_rgb(2) > 200) && (color_rgb(3) < 40))
+    red = color_rgb(1); green = color_rgb(2); blue = color_rgb(3);
+    
+    if ((red > 35) && (green > 35) && (blue < 30))
         %START ON YELLOW - high red, high green, low blue
         brick.MoveMotor('A', -28);
         brick.MoveMotor('B', -25);
-    elseif ((color_rgb(1) < 40) && (color_rgb(2) < 40) && (color_rgb(3) < 40))
+    elseif ((red < 20) && (green < 20) && (blue < 20))
         %MOVE FORWARD ON BLACK - low all colors
         %speeds are not equal, motors have tendency to veer one direction
         brick.MoveMotor('A', -28);
         brick.MoveMotor('B', -25);
-    elseif ((color_rgb(3) > 200) && (color_rgb(2) < 40) && (color_rgb(1) < 40))
+    elseif ((red < 20) && (green < 20) && (blue > 35) && (pickedUp == 0))
         %PICKUP ON BLUE - high blue, low other colors
         %since normal rotation degree methods were giving an error, we use
         % a 'timed' while loop
@@ -35,16 +39,15 @@ while(1)
             brick.MoveMotor('C' , 10);
             amt = amt + 1;
         end
-    elseif ((color_rgb(3) > 200) && (color_rgb(2) < 40) && (color_rgb(1) < 40))
-        %PICKUP ON BLUE - high blue, low other colors
-        %since normal rotation degree methods were giving an error, we use
-        % a 'timed' while loop
+        pickedUp = 1;
+    elseif ((red < 5) && (green > 15))
+        %DROPOFF ON GREEN - reverse motor movement of pickup
         amt = 0;
         while amt < 45
             brick.MoveMotor('C' , -10);
             amt = amt + 1;
         end
-    elseif ((color_rgb(1) > 200) && (color_rgb(2) < 40) && (color_rgb(3) < 40))
+    elseif ((red > 20) && (green < 15) && (blue < 15))
         %STOP ON RED - pause for 4 seconds on red
         if redSeen == 0
             pause(4); halfway = 1;
