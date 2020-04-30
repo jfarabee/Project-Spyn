@@ -11,7 +11,7 @@ color_rgb = brick.ColorRGB(4);
 
 %color_rgb is a 3-value row vector
 
-halfway = 0;
+halfway = 0; redSeen = 0;
 %tracks whether car has hit halfway point of track
 
 while(1)
@@ -46,7 +46,9 @@ while(1)
         end
     elseif ((color_rgb(1) > 200) && (color_rgb(2) < 40) && (color_rgb(3) < 40))
         %STOP ON RED - pause for 4 seconds on red
-        pause(4); halfway = 1;
+        if redSeen == 0
+            pause(4); halfway = 1;
+        end
     else
         
         %turn movement behavior depends on which half of the track the car
@@ -60,7 +62,4 @@ while(1)
            brick.MoveMotor('B', -10);
        end
     end
-    
-    
-    %DROPOFF BEHAVIOR NEEDS IMPLEMENTATION
 end
