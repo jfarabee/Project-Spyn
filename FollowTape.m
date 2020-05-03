@@ -14,9 +14,10 @@ color_rgb = brick.ColorRGB(4);
 halfway = 0; redSeen = 0;
 %tracks whether car has hit halfway point of track
 
-pickedUp = 0;
+pickedUp = 0; droppedOff = 0;
+%tracks stages of passenger delivery
 
-while(1)
+while(droppedOff == 0)
     
     color_rgb = brick.ColorRGB(4);
     red = color_rgb(1); green = color_rgb(2); blue = color_rgb(3);
@@ -47,6 +48,7 @@ while(1)
             brick.MoveMotor('C' , -10);
             amt = amt + 1;
         end
+        droppedOff = 1;
     elseif ((red > 20) && (green < 15) && (blue < 15))
         %STOP ON RED - pause for 4 seconds on red
         if redSeen == 0
