@@ -22,7 +22,7 @@ while(droppedOff == 0)
     color_rgb = brick.ColorRGB(4);
     red = color_rgb(1); green = color_rgb(2); blue = color_rgb(3);
     
-    if ((red > 35) && (green > 35) && (blue < 30))
+    if ((red > 45) && (green > 50) && (blue < 30))
         %START ON YELLOW - high red, high green, low blue
         brick.MoveMotor('A', -28);
         brick.MoveMotor('B', -25);
@@ -41,7 +41,7 @@ while(droppedOff == 0)
             amt = amt + 1;
         end
         pickedUp = 1;
-    elseif ((red < 5) && (green > 15))
+    elseif ((red < 10) && (green > 10))
         %DROPOFF ON GREEN - reverse motor movement of pickup
         amt = 0;
         while amt < 45
@@ -54,7 +54,7 @@ while(droppedOff == 0)
         if redSeen == 0
             pause(4); halfway = 1;
         end
-    else
+    elseif((red > 40) && (blue > 40) && (green > 40))
         
         %turn movement behavior depends on which half of the track the car
         %is on - past halfway, the car should turn left instead of right
@@ -66,5 +66,8 @@ while(droppedOff == 0)
            brick.MoveMotor('A', -30);
            brick.MoveMotor('B', -10);
        end
+    else
+        brick.MoveMotor('A', -28);
+        brick.MoveMotor('B', -25);
     end
 end
