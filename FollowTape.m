@@ -20,18 +20,17 @@ pickedUp = 0; droppedOff = 0;
 while(droppedOff == 0)
     
     color_rgb = brick.ColorRGB(4);
-    red = color_rgb(1); green = color_rgb(2); blue = color_rgb(3);
-    
-    if ((red > 45) && (green > 50) && (blue < 30))
+    red = color_rgb(1); green = color_rgb(2); blue = color_rgb(3);    
+    if (((red > 45)&&(red < 55)) && ((green > 40)&&(green < 50)) && ((blue > 17)&&(blue < 30)))
         %START ON YELLOW - high red, high green, low blue
         brick.MoveMotor('A', -28);
         brick.MoveMotor('B', -25);
-    elseif ((red < 20) && (green < 20) && (blue < 20))
+    elseif  (((red < 10)&&(red > 0)) && ((green > 10)&&(green < 20))&&((blue > 10)&&(blue <20)))
         %MOVE FORWARD ON BLACK - low all colors
         %speeds are not equal, motors have tendency to veer one direction
         brick.MoveMotor('A', -28);
         brick.MoveMotor('B', -25);
-    elseif ((red < 20) && (green < 20) && (blue > 35) && (pickedUp == 0))
+    elseif (((red < 15)&&(red >4)) && ((green < 18)&&(green > 10)) && ((blue > 35)&&(blue < 52)) && (pickedUp == 0))
         %PICKUP ON BLUE - high blue, low other colors
         %since normal rotation degree methods were giving an error, we use
         % a 'timed' while loop
@@ -41,7 +40,7 @@ while(droppedOff == 0)
             amt = amt + 1;
         end
         pickedUp = 1;
-    elseif ((red < 10) && (green > 10))
+    elseif (((red < 10)&&(red > 0)) && ((green > 10)&&(green < 20))&&((blue > 10)&&(blue <20)))
         %DROPOFF ON GREEN - reverse motor movement of pickup
         amt = 0;
         while amt < 45
@@ -49,12 +48,12 @@ while(droppedOff == 0)
             amt = amt + 1;
         end
         droppedOff = 1;
-    elseif ((red > 20) && (green < 15) && (blue < 15))
+    elseif  (((red < 45)&&(red > 31)) && ((green > 0)&&(green < 10))&&((blue > 0)&&(blue <12)))
         %STOP ON RED - pause for 4 seconds on red
         if redSeen == 0
             pause(4); halfway = 1;
         end
-    elseif((red > 40) && (blue > 40) && (green > 40))
+    else
         
         %turn movement behavior depends on which half of the track the car
         %is on - past halfway, the car should turn left instead of right
@@ -66,8 +65,6 @@ while(droppedOff == 0)
            brick.MoveMotor('A', -30);
            brick.MoveMotor('B', -10);
        end
-    else
-        brick.MoveMotor('A', -28);
-        brick.MoveMotor('B', -25);
+    
     end
 end
